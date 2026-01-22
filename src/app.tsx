@@ -115,6 +115,9 @@ export default function Chat() {
     agent
   });
 
+  const uploadRef = useRef<HTMLInputElement>(null);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+
   // Scroll to bottom when messages change
   useEffect(() => {
     agentMessages.length > 0 && scrollToBottom();
@@ -347,11 +350,7 @@ export default function Chat() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleAgentSubmit(e, {
-              annotations: {
-                hello: "world"
-              }
-            });
+            handleAgentSubmit(e);
             setTextareaHeight("auto"); // Reset height after submission
           }}
           className="p-3 bg-neutral-50 absolute bottom-0 left-0 right-0 z-10 border-t border-neutral-300 dark:border-neutral-800 dark:bg-neutral-900"
@@ -388,9 +387,21 @@ export default function Chat() {
                 rows={2}
                 style={{ height: textareaHeight }}
               />
+              <input type="file" multiple ref={uploadRef} className="hidden"
+                accept="image/*"
+                onChange={(e) => {
+                  const files = e.target.files;
+                  if (files && files.length > 0) {
+                    setUploadedFiles(prev => [...prev, ...Array.from(files)]);
+                  }
+                  // Reset input so the same file can be selected again
+                  e.target.value = '';
+                }}
+              />
               <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end gap-1">
                 <button
                   type="button"
+                  onClick={() => { uploadRef.current?.click(); }}
                   className="inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full p-1.5 h-fit"
                   aria-label="Upload files"
                 >
@@ -418,6 +429,29 @@ export default function Chat() {
               </div>
             </div>
           </div>
+          {uploadedFiles.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-2">
+              {uploadedFiles.map((file, index) => (
+                <div
+                  key={`${file.name}-${index}`}
+                  className="flex items-center gap-1 bg-neutral-200 dark:bg-neutral-700 rounded-full px-2 py-1 text-xs"
+                >
+                  <PaperclipIcon size={12} className="shrink-0" />
+                  <span className="truncate max-w-[120px]" title={file.name}>
+                    {file.name}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setUploadedFiles(prev => prev.filter((_, i) => i !== index))}
+                    className="ml-1 hover:text-red-500 transition-colors"
+                    aria-label={`Remove ${file.name}`}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </form>
       </div>
     </div>
