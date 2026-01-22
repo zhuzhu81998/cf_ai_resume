@@ -1,7 +1,5 @@
 import { routeAgentRequest, type Schedule } from "agents";
 
-import { getSchedulePrompt } from "agents/schedule";
-
 import { AIChatAgent } from "@cloudflare/ai-chat";
 import {
   generateId,
@@ -66,12 +64,10 @@ export class Chat extends AIChatAgent<Env> {
         });
 
         const result = streamText({
-          system: `You are a helpful assistant that can do various tasks... 
-
-${getSchedulePrompt({ date: new Date() })}
-
-If the user asks to schedule a task, use the schedule tool to schedule the task.
-`,
+          system: `You are an AI assistant that helps users with their resume/curriculum vitae. Use the available tools to provide accurate and helpful information. Furthermore, you would want to read and process user uploaded files, since they might be resumes, CVs, or other related documents. The users also might provide job listinsgs, you would want to help them tailor their resumes/CVs to better fit the job requirements.
+          
+          When the user uploads files, make sure to read and process them carefully. Extract relevant information from resumes/CVs and use that to assist the user in improving their documents. If the user provides job listings, analyze the requirements and suggest modifications to the resumes/CVs to better align with the job criteria. If necessary, you should suggest adding new sections, rephrasing content, or highlighting specific skills and experiences that match the job description.
+          You are encouraged to ask the user questions in order to help achieve their goals.`,
 
           messages: await convertToModelMessages(processedMessages),
           model,
