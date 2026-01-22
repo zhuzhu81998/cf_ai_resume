@@ -226,21 +226,10 @@ export default function Chat() {
                   <div className="bg-[#F48120]/10 text-[#F48120] rounded-full p-3 inline-flex">
                     <RobotIcon size={24} />
                   </div>
-                  <h3 className="font-semibold text-lg">Welcome to AI Chat</h3>
+                  <h3 className="font-semibold text-lg">Welcome to AI Chat for resumes</h3>
                   <p className="text-muted-foreground text-sm">
-                    Start a conversation with your AI assistant. Try asking
-                    about:
+                    Upload your resume or CV files to get personalized help!
                   </p>
-                  <ul className="text-sm text-left space-y-2">
-                    <li className="flex items-center gap-2">
-                      <span className="text-[#F48120]">•</span>
-                      <span>Weather information for any city</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="text-[#F48120]">•</span>
-                      <span>Local time in different locations</span>
-                    </li>
-                  </ul>
                 </div>
               </Card>
             </div>
@@ -436,13 +425,13 @@ export default function Chat() {
                   const files = e.target.files;
                   if (files && files.length > 0) {
                     // check if file is smaller than 2MB
-                    const validFiles = Array.from(files).filter(file => file.size <= 2 * 1024 * 1024);
+                    const validFiles = Array.from(files).filter(file => file.size < 2 * 1024 * 1024);
                     if (validFiles.length < files.length) {
                       const invalidFileNames = Array.from(files)
-                        .filter(file => file.size > 2 * 1024 * 1024)
+                        .filter(file => file.size >= 2 * 1024 * 1024)
                         .map(file => file.name)
                         .join(", ");
-                      alert(`The following files were larger than 2MB and were not added: ${invalidFileNames}`);
+                      alert(`The following files were at least 2MB and were not added: ${invalidFileNames}`);
                     }
                     setUploadedFiles(prev => [...prev, ...validFiles]);
                   }
