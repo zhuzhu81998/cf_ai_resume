@@ -19,8 +19,8 @@ import { tools, executions } from "./tools";
 
 // const model = workersai("@cf/meta/llama-2-7b-chat-int8");
 
-import { google } from '@ai-sdk/google';
-const model = google('gemini-3-flash-preview');
+import { google } from "@ai-sdk/google";
+const model = google("gemini-3-flash-preview");
 
 // Cloudflare AI Gateway
 // const openai = createOpenAI({
@@ -45,7 +45,7 @@ export class Chat extends AIChatAgent<Env> {
 
     // Collect all tools, including MCP tools
     const allTools = {
-      ...tools,
+      ...tools
       //...this.mcp.getAITools() TODO: enable MCP tools if needed
     };
 

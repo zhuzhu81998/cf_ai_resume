@@ -103,13 +103,13 @@ export default function Chat() {
     for (const file of uploadedFiles) {
       const url = await fileToDataUrl(file);
       attachmentParts.push({
-        type: 'file',
+        type: "file",
         mediaType: file.type,
         filename: file.name,
         url
       });
     }
-    
+
     setUploadedFiles([]);
     uploadRef.current!.value = "";
 
@@ -117,11 +117,11 @@ export default function Chat() {
     await sendMessage(
       {
         role: "user",
-        parts: [{ type: "text", text: message }, ...attachmentParts],
+        parts: [{ type: "text", text: message }, ...attachmentParts]
       },
       {
         body: extraData
-      },
+      }
     );
   };
 
@@ -225,7 +225,9 @@ export default function Chat() {
                   <div className="bg-[#F48120]/10 text-[#F48120] rounded-full p-3 inline-flex">
                     <RobotIcon size={24} />
                   </div>
-                  <h3 className="font-semibold text-lg">Welcome to AI Chat for resumes</h3>
+                  <h3 className="font-semibold text-lg">
+                    Welcome to AI Chat for resumes
+                  </h3>
                   <p className="text-muted-foreground text-sm">
                     Upload your resume or CV files to get personalized help!
                   </p>
@@ -274,7 +276,10 @@ export default function Chat() {
                                   className="inline-flex items-center gap-1 text-xs bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 rounded-full px-2 py-0.5"
                                 >
                                   <PaperclipIcon size={10} />
-                                  <span className="truncate max-w-[100px]" title={file.filename}>
+                                  <span
+                                    className="truncate max-w-[100px]"
+                                    title={file.filename}
+                                  >
                                     {file.filename}
                                   </span>
                                 </span>
@@ -419,28 +424,38 @@ export default function Chat() {
                 rows={2}
                 style={{ height: textareaHeight }}
               />
-              <input type="file" multiple ref={uploadRef} className="hidden"
+              <input
+                type="file"
+                multiple
+                ref={uploadRef}
+                className="hidden"
                 onChange={(e) => {
                   const files = e.target.files;
                   if (files && files.length > 0) {
                     // check if file is smaller than 2MB
-                    const validFiles = Array.from(files).filter(file => file.size < 2 * 1024 * 1024);
+                    const validFiles = Array.from(files).filter(
+                      (file) => file.size < 2 * 1024 * 1024
+                    );
                     if (validFiles.length < files.length) {
                       const invalidFileNames = Array.from(files)
-                        .filter(file => file.size >= 2 * 1024 * 1024)
-                        .map(file => file.name)
+                        .filter((file) => file.size >= 2 * 1024 * 1024)
+                        .map((file) => file.name)
                         .join(", ");
-                      alert(`The following files were at least 2MB and were not added: ${invalidFileNames}`);
+                      alert(
+                        `The following files were at least 2MB and were not added: ${invalidFileNames}`
+                      );
                     }
-                    setUploadedFiles(prev => [...prev, ...validFiles]);
+                    setUploadedFiles((prev) => [...prev, ...validFiles]);
                   }
-                  e.target.value = '';
+                  e.target.value = "";
                 }}
               />
               <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end gap-1">
                 <button
                   type="button"
-                  onClick={() => { uploadRef.current?.click(); }}
+                  onClick={() => {
+                    uploadRef.current?.click();
+                  }}
                   className="inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full p-1.5 h-fit"
                   aria-label="Upload files"
                 >
@@ -459,7 +474,10 @@ export default function Chat() {
                   <button
                     type="submit"
                     className="inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full p-1.5 h-fit border border-neutral-200 dark:border-neutral-800"
-                    disabled={pendingToolCallConfirmation || (!agentInput.trim() && uploadedFiles.length === 0)}
+                    disabled={
+                      pendingToolCallConfirmation ||
+                      (!agentInput.trim() && uploadedFiles.length === 0)
+                    }
                     aria-label="Send message"
                   >
                     <PaperPlaneTiltIcon size={16} />
@@ -481,7 +499,11 @@ export default function Chat() {
                   </span>
                   <button
                     type="button"
-                    onClick={() => setUploadedFiles(prev => prev.filter((_, i) => i !== index))}
+                    onClick={() =>
+                      setUploadedFiles((prev) =>
+                        prev.filter((_, i) => i !== index)
+                      )
+                    }
                     className="ml-1 hover:text-red-500 transition-colors"
                     aria-label={`Remove ${file.name}`}
                   >
