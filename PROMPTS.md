@@ -10,3 +10,6 @@ implement that below the input text field, there should be small overview of nam
 
 ### Prompt
 How to convert an image in such a way that it can be sent to gemini model with url field?
+
+### Prompt
+add a short notice for each agentMessage what attachments were used?

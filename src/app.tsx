@@ -275,6 +275,29 @@ export default function Chat() {
                     )}
 
                     <div>
+                      {(() => {
+                        const fileParts = m.parts?.filter(
+                          (part) => part.type === "file"
+                        ) as FileUIPart[] | undefined;
+                        if (fileParts && fileParts.length > 0) {
+                          return (
+                            <div className="flex flex-wrap gap-1 mb-1">
+                              {fileParts.map((file, i) => (
+                                <span
+                                  key={`attachment-${i}`}
+                                  className="inline-flex items-center gap-1 text-xs bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 rounded-full px-2 py-0.5"
+                                >
+                                  <PaperclipIcon size={10} />
+                                  <span className="truncate max-w-[100px]" title={file.filename}>
+                                    {file.filename}
+                                  </span>
+                                </span>
+                              ))}
+                            </div>
+                          );
+                        }
+                        return null;
+                      })()}
                       <div>
                         {m.parts?.map((part, i) => {
                           if (part.type === "text") {
@@ -416,7 +439,6 @@ export default function Chat() {
                   if (files && files.length > 0) {
                     setUploadedFiles(prev => [...prev, ...Array.from(files)]);
                   }
-                  // Reset input so the same file can be selected again
                   e.target.value = '';
                 }}
               />
