@@ -23,6 +23,7 @@ import {
   SunIcon,
   TrashIcon,
   PaperPlaneTiltIcon,
+  PaperclipIcon,
   StopIcon
 } from "@phosphor-icons/react";
 
@@ -387,7 +388,14 @@ export default function Chat() {
                 rows={2}
                 style={{ height: textareaHeight }}
               />
-              <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end">
+              <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end gap-1">
+                <button
+                  type="button"
+                  className="inline-flex items-center cursor-pointer justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full p-1.5 h-fit"
+                  aria-label="Upload files"
+                >
+                  <PaperclipIcon size={16} />
+                </button>
                 {status === "submitted" || status === "streaming" ? (
                   <button
                     type="button"
