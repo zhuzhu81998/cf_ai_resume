@@ -437,7 +437,16 @@ export default function Chat() {
                 onChange={(e) => {
                   const files = e.target.files;
                   if (files && files.length > 0) {
-                    setUploadedFiles(prev => [...prev, ...Array.from(files)]);
+                    // check if file is smaller than 2MB
+                    const validFiles = Array.from(files).filter(file => file.size <= 2 * 1024 * 1024);
+                    if (validFiles.length < files.length) {
+                      const invalidFileNames = Array.from(files)
+                        .filter(file => file.size > 2 * 1024 * 1024)
+                        .map(file => file.name)
+                        .join(", ");
+                      alert(`The following files were larger than 2MB and were not added: ${invalidFileNames}`);
+                    }
+                    setUploadedFiles(prev => [...prev, ...validFiles]);
                   }
                   e.target.value = '';
                 }}
