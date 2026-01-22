@@ -7,3 +7,6 @@ We need an additional button in the ui for uploading things. preferably next to 
 
 ### Prompt
 implement that below the input text field, there should be small overview of names of files that were uploaded please.
+
+### Prompt
+How to convert an image in such a way that it can be sent to gemini model with url field?

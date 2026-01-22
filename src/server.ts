@@ -13,13 +13,17 @@ import {
   createUIMessageStreamResponse,
   type ToolSet
 } from "ai";
-import { createWorkersAI } from 'workers-ai-provider';
 import { processToolCalls, cleanupMessages } from "./utils";
 import { tools, executions } from "./tools";
-import { env } from "cloudflare:workers";
-const workersai = createWorkersAI({ binding: env.AI });
+// import { createWorkersAI } from 'workers-ai-provider';
+// import { env } from "cloudflare:workers";
+// const workersai = createWorkersAI({ binding: env.AI });
 
-const model = workersai("@cf/meta/llama-2-7b-chat-int8");
+// const model = workersai("@cf/meta/llama-2-7b-chat-int8");
+
+import { google } from '@ai-sdk/google';
+const model = google('gemini-3-flash-preview');
+
 // Cloudflare AI Gateway
 // const openai = createOpenAI({
 //   apiKey: env.OPENAI_API_KEY,

@@ -40,6 +40,7 @@
 		"wrangler": "^4.60.0"
 	},
 	"dependencies": {
+		"@ai-sdk/google": "^3.0.13",
 		"@ai-sdk/react": "^3.0.5",
 		"@cloudflare/ai-chat": "^0.0.3",
 		"@phosphor-icons/react": "^2.1.10",

@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/correctness/useUniqueElementIds: it's alright */
 import { useEffect, useState, useRef, useCallback, use } from "react";
 import { useAgent } from "agents/react";
-import { isStaticToolUIPart } from "ai";
+import { isStaticToolUIPart, type FileUIPart } from "ai";
 import { useAgentChat } from "@cloudflare/ai-chat/react";
 import type { UIMessage } from "@ai-sdk/react";
 import type { tools } from "./tools";
@@ -82,6 +82,14 @@ export default function Chat() {
     setAgentInput(e.target.value);
   };
 
+  function fileToDataUrl(file: File): Promise<string> {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.readAsDataURL(file);
+    });
+  }
+
   const handleAgentSubmit = async (
     e: React.FormEvent,
     extraData: Record<string, unknown> = {}
@@ -92,15 +100,30 @@ export default function Chat() {
     const message = agentInput;
     setAgentInput("");
 
+    const attachmentParts: FileUIPart[] = [];
+
+    for (const file of uploadedFiles) {
+      const url = await fileToDataUrl(file);
+      attachmentParts.push({
+        type: 'file',
+        mediaType: file.type,
+        filename: file.name,
+        url
+      });
+    }
+    
+    setUploadedFiles([]);
+    uploadRef.current!.value = "";
+
     // Send message to agent
     await sendMessage(
       {
         role: "user",
-        parts: [{ type: "text", text: message }]
+        parts: [{ type: "text", text: message }, ...attachmentParts],
       },
       {
         body: extraData
-      }
+      },
     );
   };
 
