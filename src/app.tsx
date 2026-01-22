@@ -411,7 +411,6 @@ export default function Chat() {
                 style={{ height: textareaHeight }}
               />
               <input type="file" multiple ref={uploadRef} className="hidden"
-                accept="image/*"
                 onChange={(e) => {
                   const files = e.target.files;
                   if (files && files.length > 0) {
