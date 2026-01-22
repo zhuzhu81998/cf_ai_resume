@@ -19,7 +19,7 @@ import { tools, executions } from "./tools";
 import { env } from "cloudflare:workers";
 const workersai = createWorkersAI({ binding: env.AI });
 
-const model = workersai("@cf/meta/llama-3.2-1b-instruct");
+const model = workersai("@cf/meta/llama-2-7b-chat-int8");
 // Cloudflare AI Gateway
 // const openai = createOpenAI({
 //   apiKey: env.OPENAI_API_KEY,
@@ -44,7 +44,7 @@ export class Chat extends AIChatAgent<Env> {
     // Collect all tools, including MCP tools
     const allTools = {
       ...tools,
-      ...this.mcp.getAITools()
+      //...this.mcp.getAITools() TODO: enable MCP tools if needed
     };
 
     const stream = createUIMessageStream({
